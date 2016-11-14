@@ -8,6 +8,8 @@ import javax.ws.rs.core.Application;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import static ch.raiffeisen.hystrix.demo.Demo.serviceConfig;
+
 @Path("/users")
 public class UserResource extends Application {
 
@@ -20,7 +22,7 @@ public class UserResource extends Application {
 	public User searchUser(@PathParam("userid") String userid) throws Exception {
 		User user;
 		try {
-			if (Demo.serviceConfig.serviceProperties.useHystrix) {
+			if (serviceConfig.serviceProperties.useHystrix) {
 				user = new LookupCommand(userid).execute();
 			} else {
 				user = RemoteUserClient.loadUser(userid);

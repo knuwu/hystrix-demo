@@ -2,6 +2,8 @@ package ch.raiffeisen.hystrix.demo;
 
 import com.netflix.hystrix.HystrixCommand;
 import com.netflix.hystrix.HystrixCommandGroupKey;
+import com.netflix.hystrix.HystrixCommandProperties;
+import com.netflix.hystrix.strategy.properties.HystrixPropertiesCommandDefault;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -14,11 +16,11 @@ public class LookupCommand extends HystrixCommand<User>{
 	public LookupCommand(String userid) {
 
 
-		super(Setter.withGroupKey(HystrixCommandGroupKey.Factory.asKey("User")));
-//				.andCommandPropertiesDefaults(HystrixPropertiesCommandDefault.Setter()
-//						.withExecutionTimeoutInMilliseconds(2000)
-//						.withCircuitBreakerErrorThresholdPercentage(20)));
-		
+		super(Setter.withGroupKey(HystrixCommandGroupKey.Factory.asKey("User"))
+				.andCommandPropertiesDefaults(HystrixPropertiesCommandDefault.Setter()
+				.withExecutionTimeoutInMilliseconds(100)));
+//				.withCircuitBreakerErrorThresholdPercentage(50)));
+
 		this.userid = userid;
 	}
 
